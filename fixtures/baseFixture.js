@@ -5,15 +5,15 @@ import { ProductsPage } from '../pages/ProductsPage';
 export const test = baseTest.extend({
     
     loginPage: async ({ page }, use) => {
-        await use(new LoginPage(page)); // Inicjalizujemy i udostępniamy klasę LoginPage
+        await use(new LoginPage(page));
     },
 
-    // Tworzymy nową fixture 'productsPage'
+    // fixture 'productsPage'
     productsPage: async ({ page }, use) => {
-        await use(new ProductsPage(page)); // Inicjalizujemy i udostępniamy klasę ProductsPage
+        await use(new ProductsPage(page));
     },
     
-    // Tworzymy fixture 'loggedInPage', która wykonuje logowanie przed testem
+    // 'loggedInPage', która wykonuje logowanie przed testem
     loggedInPage: async ({ loginPage, page }, use) => {
         const USERNAME = 'standard_user';
         const PASSWORD = 'secret_sauce';
@@ -23,7 +23,7 @@ export const test = baseTest.extend({
         await loginPage.login(USERNAME, PASSWORD);
         await loginPage.verifyLoginSuccess();
         
-        // Zwracamy obiekt 'page' do wykonania reszty testu
+        // Zwraca obiekt 'page' do wykonania reszty testu
         await use(page); 
     },
 });
