@@ -16,4 +16,16 @@ test.describe('Testy zakupowe z automatycznym logowaniem', () => {
         await productsPage.goToCart();
         await expect(loggedInPage).toHaveURL('https://www.saucedemo.com/cart.html');
     });
+
+    test('Test sprawdzający działanie soft asercji', async ({ page }) => {
+    await page.goto('https://www.saucedemo.com/');
+
+    // 1. To się wywali (celowo błędny tekst), ale test powinien iść dalej
+    await expect.soft(page.locator('#login-button')).toHaveValue('NIEISTNIEJE');
+    console.log('--- Log po pierwszej asercji (powinien się pojawić) ---');
+
+    // 2. To się wykona i przejdzie
+    await expect.soft(page.locator('#user-name')).toBeVisible();
+    console.log('--- Log po drugiej asercji (powinien się pojawić) ---');
+});
 });
