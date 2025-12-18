@@ -1,5 +1,6 @@
 import { test } from '../fixtures/baseFixture';
 import { expect } from '@playwright/test';
+import { LoginPage } from '../pages/LoginPage';
 
 test.describe('Testy zakupowe z automatycznym logowaniem', () => {
 
@@ -28,4 +29,26 @@ test.describe('Testy zakupowe z automatycznym logowaniem', () => {
     await expect.soft(page.locator('#user-name')).toBeVisible();
     console.log('--- Log po drugiej asercji (powinien się pojawić) ---');
 });
+});
+
+test.describe('Testy z czyszczeniem środowiska', () => {
+    
+    test.beforeEach(async ({ page }) => {
+        await page.goto('https://www.saucedemo.com/');
+    });
+
+    test.afterEach(async ({ page }) => {
+        await page.getByRole('button', { name: 'Open Menu' }).click();
+
+        await page.getByRole('link', { name: 'Logout' }).click();
+        
+        await expect(page.locator('#login-button')).toBeVisible();
+    });
+    
+    test('powinien się zalogować i dodać produkt (potem nastąpi wylogowanie)', async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        
+        await loginPage.login('standard_user', 'secret_sauce');
+        
+    });
 });
